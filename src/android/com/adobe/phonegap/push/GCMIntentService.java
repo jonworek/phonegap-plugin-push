@@ -278,7 +278,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         String title = extras.getString(TITLE);
         String contentAvailable = extras.getString(CONTENT_AVAILABLE);
         String forceStart = extras.getString(FORCE_START);
-        String geoZone = extras.getString("geoZone");
+        String geoZone = extras.getString(GEO_ZONE);
 
         int badgeCount = extractBadgeCount(extras);
         if (badgeCount >= 0) {
