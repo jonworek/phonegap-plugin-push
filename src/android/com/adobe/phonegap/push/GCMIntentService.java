@@ -278,6 +278,8 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         String title = extras.getString(TITLE);
         String contentAvailable = extras.getString(CONTENT_AVAILABLE);
         String forceStart = extras.getString(FORCE_START);
+        String geoZone = extras.getString("geoZone");
+
         int badgeCount = extractBadgeCount(extras);
         if (badgeCount >= 0) {
             Log.d(LOG_TAG, "count =[" + badgeCount + "]");
@@ -288,6 +290,24 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         Log.d(LOG_TAG, "title =[" + title + "]");
         Log.d(LOG_TAG, "contentAvailable =[" + contentAvailable + "]");
         Log.d(LOG_TAG, "forceStart =[" + forceStart + "]");
+        Log.d(LOG_TAG, "geoZone =[" + geoZone + "]");
+
+        if (geoZone != null) {
+            try { 
+                GeoZoneNotifier geoNotifier = new GeoZoneNotifier(
+                    this, 
+                    geoZone,
+                    context,
+                    extras
+                );
+
+                geoNotifier.showIfWithinRange();
+            } catch (JSONException e) {
+                // TODO: log this or something
+            }
+
+            return;
+        }
 
         if ((message != null && message.length() != 0) ||
                 (title != null && title.length() != 0)) {
